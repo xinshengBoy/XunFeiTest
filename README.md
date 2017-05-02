@@ -2,9 +2,13 @@
 讯飞语音合成（即将文字转换为声音）
 详细过程：
 	一：到科大讯飞开发者中心去登录/注册（http://www.xfyun.cn/）
+	
 	二：右上角点击用户名，创建新应用，填写即好，然后开通服务，选择语音合成
+	
 	三：点击应用，下载Android平台的SDK。
+	
 	四：解压后，将libs里面的armeabi文件夹和Msc.jar放入src/main下面新建的一个叫jniLibs的文件夹中(注：这个文件夹必须要在这个位置，名字也要一样)
+	
 	五：在AndroidManifest.xml配置文件中加入权限
 		<!--网络-->
 		<uses-permission android:name="android.permission.INTERNET"/>
@@ -20,14 +24,18 @@
 		<uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 		<!--读取联系人权限，上传联系人需要用到此权限 -->
 		<uses-permission android:name="android.permission.READ_CONTACTS"/>
+		
 	六：在proguard-rules.pro混淆文件中加入下面这句：
 		-keep class com.iflytek.**{*;}
+		
 	七：在build.gradle中的dependencies下面加入lib的路径
 		//讯飞语音
 		compile files('src/main/jniLibs/Msc.jar')
+		
 	八：在application中加入下面这句，如果没有新建application，则可直接新建一个如MyApp extends Application,在onCreate（）方法中加入下面这句
 		当然，也要在配置文件的application中将MyApp加入进去。将网页显示的app_id放在string.xml下面.
 		SpeechUtility.createUtility(MyApp.this, "appid=" + getString(R.string.app_id));
+		
 	九：在Activity中加入
 		
 		//1.创建SpeechSynthesizer对象, 第二个参数：本地合成时传InitListener  
@@ -62,5 +70,6 @@
 		//会话事件回调接口  
 			public void onEvent(int arg0, int arg1, int arg2, Bundle arg3) {}  
 			
-	这样就能集成讯飞语音了，步骤不要错，特别是jniLibs文件夹那里，
+			
+	这样就能集成讯飞语音了，步骤不要错，特别是jniLibs文件夹那里，具体流程可参考开发文档http://www.xfyun.cn/doccenter/awd
 
